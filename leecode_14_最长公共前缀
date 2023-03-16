@@ -1,0 +1,49 @@
+/*
+编写一个 函数 来查找字符串数组中的最长公共前缀。
+如果不存在公共前缀，返回空字符串 ""。
+*/
+/*
+我的思路：
+先获取每一个数组元素，
+接着获取每个元素的每个字符charAt()，若前n个字符相等，返回前n个字符。若没有相等的字符，返回""。
+*/
+
+/*
+正确答案的思路：
+1.当字符串数组长度为0时则公共前缀为空，直接返回；
+2.令最长公共前缀ans的值为第一个字符串，进行初始化
+3.遍历后面的数组，依次与ans比较，找出两者的公共前缀
+4.若ans为空，直接返回。
+*/
+
+//差别：所有元素一起比较不容易实现，只能两两一同比较
+
+//代码实现
+class Solution {
+    public String longestCommonPrefix(String[] strs) {
+        if(strs.length == 0){return "";}
+		String ans = strs[0];
+		for(int i = 1; i < strs.length; i++){
+			//核心代码
+			//依次对比第一个元素的每个字符与后面每个元素的字符，找到最小的j
+			int j = 0;
+			
+			//for(; j < ans.length && j < strs.length; j++){
+			for(; j < ans.length() && j < strs[i].length(); j++){
+				
+				if(ans.charAt(j) != strs[i].charAt(j))
+					break;
+			}
+			ans = ans.substring(0,j);
+			/*
+			/substring() 方法返回字符串的子字符串。
+			beginIndex -- 起始索引（包括）, 索引从 0 开始。
+			endIndex -- 结束索引（不包括）。
+			*/
+			if(ans.equals("")){
+				return ans;
+			}
+		}
+		return ans;
+    }
+}
