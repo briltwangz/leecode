@@ -1,0 +1,49 @@
+//1.将整数转换成字符串
+class Solution{
+	public boolean isPanlindrome(int x){
+		StringBuilder sb = new StringBuilder();//创建一个StringBuilder字符串
+		sb.append(x);//append()方法在被选元素的结尾（仍然在内部）插入指定内容
+		sb.reverse();//字符串反转
+		return sb.toString.equals("" + x);//String类中的equals方法已被重写，比较两个字符串的内容是否相等
+		//猜想：前面一个空字符串""是由于append方法
+		}
+	}
+	
+//2.不转换成字符串
+/*
+如121，找规律。取出每一个数，整合成一个新整数
+121%10=1
+121/10=12
+12%10=2
+12/10=1
+1%10=1
+要判断整数的位数，从后往前得到每一位数后，重新组合，次数按位数递减
+
+可以每取出一个数，初始值*10+输入的数逐次/10*/
+class Solution{
+	public boolean isPanlindrome(int x){
+		if (x < 0){
+			return false;
+		}
+		int cur = 0;
+		int num = x;
+		while(num != 0){
+			cur = num%10 + cur*10;
+			num /= 10;
+		}
+		/*
+		举例：
+		125
+		cur = 5
+		num = 12
+		
+		cur = 50 + 2 =52
+		num = 1
+		
+		cur = 520 + 1 =521
+		num = 0
+		退出循环，实现了数字的反转，返回false
+		*/
+		return cur == x;
+		}
+	}
