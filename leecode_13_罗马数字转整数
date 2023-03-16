@@ -1,0 +1,81 @@
+
+/*没思路
+最后一位为正
+*/
+import java.util.*;
+class Solution{
+	public int romanToInt(String s){
+	int sum = 0;
+	int preNum = getValue(s.charAt(0));//获取字符串的第一个字符，符号为正
+	//charAt()方法返回指定索引位置的char值。
+	//索引范围为0~length()-1，如: str.charAt(0)检索str中的第一个字符,str.charAt(str.length()-1)检索最后一个字符。
+	for(int i = 1; i < s.length(); i++){
+		int num = getValue(s.charAt(i));
+		
+		if(num >= preNum){sum = preNum +sum;}
+		else{sum = sum - preNum;}
+		
+		if(preNum < num) {sum -= preNum;} 
+		else {sum += preNum;}
+		//上述两段代码表达的不是同一个意思吗？为什么第一段错误
+		//是从整段代码看，出现了bug嘛
+		//可以放在IDE上编译一下，看看字节码文件的不同之处。
+		
+		preNum = num;//关键
+	}
+	sum += preNum;//why?
+	return sum;
+	}
+
+
+/**
+方式一：switch() case 
+获取每个罗马数字代表的值
+若从左往右遍历，发现右边的罗马数字对于的值更大，则sum = sum + 该罗马数字的整数值
+否则，sum = sum - 该罗马数字的整数值。直至遍历完这些字符
+*/
+private int getValue(char ch){
+	switch(ch){
+		case 'I':return 1;
+		case 'V':return 5;
+		case 'X':return 10;
+		case 'L':return 50;
+		case 'C':return 100;
+		case 'D':return 500;
+		case 'M':return 1000;
+		default:return 0;
+		}
+	}
+
+}
+
+
+/**
+方式二：采用HashMap进行存储
+
+*/
+class Solution{
+Map<Character,Integer> symbolValues = new HashMap<Character,Integer>(){{
+	put('I',1);
+	put('V',5);
+	put('X',10);
+	put('L',50);
+	put('C',100);
+	put('D',500);
+	put('M',1000);
+}};
+	
+	public int romanToInt(String s){
+		int ans = 0;
+		int n = s.length();//加括号是指的字符串String类的一个方法，表示其底层数组的长度及即字符的个数
+		//不加括号，表示一个长度属性，可以参考源码
+		//size()方法是集合的方法，最后要找的其实还是数组的length属性
+		for(int i = 0; i < n; ++i){//++i 
+			int value  = symbolValues.get(s.charAt(i))
+			if(i < n-1 && value < symbolValues.get(s.charAt(i+1))){
+				ans -= value;
+			}else{ans += value;}
+			}
+			return ans;//这个问什么不用靠用加上最后一个值？
+	}
+}
